@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grade Calculator</title>
+    <style>
+      html,
+      body {
+        margin: 0px;
+      }
+      .nav {
+        background-color: rgb(128, 0, 28);
+        height: 10vh;
+        padding: 0.2em;
+        color: white;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 1.2em;
+      }
+      .text {
+        display: inline-block;
+      }
+      .container {
+        text-align: center;
+        height: 100%;
+      }
+      input {
+        margin: 1em;
+        border: dotted 2px black;
+        border-radius: 1em;
+        padding: 0.5em;
+      }
+      button {
+        border-radius: 1em;
+        padding: 0.5em;
+        background-color: teal;
+        color: white;
+        margin: 1em;
+      }
+      select{
+          padding: 0.7em;
+          margin : 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="nav">
+        <div class="text">
+          <h2>CGPA Calculator</h2>
+        </div>
+        <div class="text" id="right-text">
+          <p>by Garima Srivastava</p>
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <form name="form">
+        <input type="number" id="num" placeholder="Enter number of subject" name="num" />
+        <button onclick="start(form.num.value)">Submit</button>
+      </form>
+      <div id="calculator"></div>
+    </div>
+    <script>
+      let calc = document.getElementById("calculator");
+      function start(x) {
+        event.preventDefault();
+        for (let i = 0; i < x; i++) {
+          let div = document.createElement("div");
+          let tag = document.createElement("p");
+          var text = document.createTextNode("Subject " + (i + 1));
+          tag.appendChild(text);
+          let selectCred = document.createElement("select");
+          selectCred.setAttribute('id',"selectCred"+i);
+          let selectGrade = document.createElement("select");
+          selectGrade.setAttribute('id',"selectGrade"+i);
+          for (let i = 0; i < 8; i++) {
+            let option = document.createElement("option");
+            option.text = i + 1 + " credit";
+            option.value = i + 1;
+            selectCred.appendChild(option);
+            let option2 = document.createElement("option");
+            switch (i) {
+              case 0:
+                option2.text = "S";
+                break;
+              case 1:
+                option2.text = "A";
+                break;
+              case 2:
+                option2.text = "B";
+                break;
+              case 3:
+                option2.text = "C";
+                break;
+              case 4:
+                option2.text = "D";
+                break;
+              case 5:
+                option2.text = "E";
+                break;
+              case 6:
+                option2.text = "F";
+                break;
+              case 7:
+                option2.text = "N";
+                break;
+            }
+            option2.value = i + 1;
+            selectGrade.appendChild(option2);
+          }
+          div.appendChild(tag);
+          div.appendChild(selectCred);
+          div.appendChild(selectGrade);
+          calc.appendChild(div);
+        }
+        let button = document.createElement('button');
+        button.innerHTML = "Calculate"
+        button.onclick = ((e)=>{
+            e.preventDefault()
+            let num = document.getElementById('num').value
+            console.log(num)
+            let total_credits = 0;
+            let total=0;
+            for(let i=0; i<num; i++) {
+                let credits = document.getElementById("selectCred"+i).value;
+                let grade = document.getElementById("selectGrade"+i).value;
+                total+=credits*(11-grade);
+                total_credits += parseInt(credits);
+            }
+            console.log(total_credits)
+            total = total/total_credits;
+            console.log(total);
+            let cgpa = document.createElement('h1');
+            cgpa.innerHTML = ("TOTAL GPA : "+ total.toFixed(2))
+            calc.appendChild(cgpa)
+        })
+        calc.appendChild(button)
+      }
+    </script>
+  </body>
+</html>
